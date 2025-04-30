@@ -1,15 +1,21 @@
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
+using WebService.Authorization.HttpApi.Host.DependencyInjection;
+using WebService.Authorization.HttpApi.Host.Transformer;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddControllers(options =>
+{
+    options.Conventions.Add(new RouteTokenTransformerConvention(new KebabCaseParameterTransformer()));
+});
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-var app = builder.Build();
+var confiruare = builder.Configuration;
+builder.Services.DependencyInjectionOption(confiruare);
 
-// Configure the HTTP request pipeline.
+
+var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

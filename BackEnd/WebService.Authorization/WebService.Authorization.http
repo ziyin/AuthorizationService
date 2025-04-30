@@ -1,6 +1,0 @@
-@WebService.Authorization_HostAddress = http://localhost:5079
-
-GET {{WebService.Authorization_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
