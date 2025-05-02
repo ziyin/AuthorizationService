@@ -1,3 +1,4 @@
+using CustomerAuthorization;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using WebService.Authorization.HttpApi.Host.DependencyInjection;
 using WebService.Authorization.HttpApi.Host.Transformer;
@@ -13,7 +14,8 @@ builder.Services.AddSwaggerGen();
 
 var confiruare = builder.Configuration;
 builder.Services.DependencyInjectionOption(confiruare);
-
+builder.Services.DependencyInjectionClass();
+builder.Services.AddJwtSdk(confiruare);
 
 var app = builder.Build();
 if (app.Environment.IsDevelopment())

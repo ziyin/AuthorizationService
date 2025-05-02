@@ -7,7 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="CustomerAuthorization" Version="1.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\WebService.Authorization.Application\WebService.Authorization.Application.csproj" />
+    <ProjectReference Include="..\WebService.Authorization.HttpApi\WebService.Authorization.HttpApi.csproj" />
+    <ProjectReference Include="..\WebService.Authorization.Infrastructure\WebService.Authorization.Infrastructure.csproj" />
     <ProjectReference Include="..\WebService.Authorization.Shard\WebService.Authorization.Shard.csproj" />
   </ItemGroup>
 
