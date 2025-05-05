@@ -24,20 +24,68 @@ public class UserAppService
         {
             throw new ArgumentException("Account exist.");
         }
-        var passwordHasher = new PasswordHasher<object>();
-        string hashedPassword = passwordHasher.HashPassword(null!, createUserParameterDto.Password);
+        var hashedPassword = EncodePassword(createUserParameterDto.Password);
         var user = UserEntity.Create
         (
             name: createUserParameterDto.Name,
             account: createUserParameterDto.Account,
             hashedPassword: hashedPassword,
             regionBusinessUnit: createUserParameterDto.RegionBusinessUnit,
-            email:createUserParameterDto.Email,
-            phone:createUserParameterDto.Phone,
+            email: createUserParameterDto.Email,
+            phone: createUserParameterDto.Phone,
             address: createUserParameterDto.Address,
-            creator:createUserParameterDto.Creator
+            creator: createUserParameterDto.Creator
         );
         var userId = await _userRepository.CreateAsync(user);
         return userId;
     }
+
+    public async Task UpdateAsync(UpdateUserParameterDto parameterDto)
+    {
+        var getUserDetail = await GetUserAsync(parameterDto.UserId);
+        getUserDetail.Update
+            (
+            name: parameterDto.Name,
+            regionBusinessUnit: parameterDto.RegionBusinessUnit,
+            email: parameterDto.Email,
+            phone: parameterDto.Phone,
+            address: parameterDto.Address,
+            modifiedBy: parameterDto.LastModifiedBy
+            );
+        await _userRepository.UpdateAsync(getUserDetail);
+    }
+
+    public async Task ResetPasswordAsync(ResetPasswordParameterDto parameterDto)
+    {
+        var getUserDetail = await GetUserAsync(parameterDto.UserId);
+        var hashedPassword = EncodePassword(parameterDto.Password);
+        getUserDetail.ResetPassword(hashedPassword, parameterDto.LastModifiedBy);
+        await _userRepository.UpdateAsync(getUserDetail);
+    }
+
+    public async Task SetEnableAsync(SetEnableParameterDto parameterDto)
+    {
+        var getUserDetail = await GetUserAsync(parameterDto.UserId);
+        getUserDetail.SetEnableState(parameterDto.Enable, parameterDto.LastModifiedBy);
+        await _userRepository.UpdateAsync(getUserDetail);
+    }
+
+    #region --private
+
+    private async Task<UserEntity> GetUserAsync(Guid userId)
+    {
+        var getUserDetail = await _userRepository.GetAsync(new GetUserParameterModel
+        {
+            UserId = userId
+        }) ?? throw new ArgumentException("User not exist.");
+        return getUserDetail;
+    }
+
+    private string EncodePassword(string password)
+    {
+        var passwordHasher = new PasswordHasher<object>();
+        string hashedPassword = passwordHasher.HashPassword(null!, password);
+        return hashedPassword;
+    }
+    #endregion
 }

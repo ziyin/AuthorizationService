@@ -41,7 +41,7 @@ public class RoleRepository
         return insertedId;
     }
 
-    public async Task<RoleDataModel?> GetAsync(GetRoleParameterModel parameterModel)
+    public async Task<RoleEntity?> GetAsync(GetRoleParameterModel parameterModel)
     {
         var sqlbuilder = new RoleSqlBuilder<GetRoleParameterModel>("SELECT * FROM Roles WHERE 1=1", parameterModel)
             .QueryRoleId()
@@ -49,7 +49,7 @@ public class RoleRepository
         var sql = sqlbuilder.BuildSql();
         var parameters = sqlbuilder.BuildParameters();
         using var conn = new SqlConnection(_dbConnectionOption.AuthorizationConnection);
-        var result = await conn.QueryFirstOrDefaultAsync<RoleDataModel>(sql, parameters);
+        var result = await conn.QueryFirstOrDefaultAsync<RoleEntity>(sql, parameters);
         return result;
     }
 }

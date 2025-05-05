@@ -50,10 +50,29 @@ public class UserRepository
         var insertedId = await connection.ExecuteScalarAsync<Guid>(sql, userEntity);
 
         return insertedId;
-
     }
 
-    public async Task<UserDataModel?> GetAsync(GetUserParameterModel parameterModel)
+    public async Task UpdateAsync(UserEntity userEntity)
+    {
+        var sql = @"
+                    UPDATE Users
+                    SET 
+                        Name = @Name,
+                        Password = @Password,
+                        RegionBusinessUnit = @RegionBusinessUnit,
+                        Email = @Email,
+                        Phone = @Phone,
+                        Address = @Address,
+                        Enable = @Enable,
+                        LastModified = GETDATE(),
+                        LastModifiedBy = @LastModifiedBy
+                    WHERE Id = @Id;
+                    ";
+        using var connection = new SqlConnection(_dbConnectionOption.AuthorizationConnection);
+        await connection.ExecuteAsync(sql, userEntity);
+    }
+
+    public async Task<UserEntity?> GetAsync(GetUserParameterModel parameterModel)
     {
         var sqlbuilder = new UserSqlBuilder<GetUserParameterModel>("SELECT * FROM Users WHERE 1=1", parameterModel)
             .QueryUserId()
@@ -61,11 +80,11 @@ public class UserRepository
         var sql = sqlbuilder.BuildSql();
         var parameters = sqlbuilder.BuildParameters();
         using var conn = new SqlConnection(_dbConnectionOption.AuthorizationConnection);
-        var result = await conn.QueryFirstOrDefaultAsync<UserDataModel>(sql, parameters);
+        var result = await conn.QueryFirstOrDefaultAsync<UserEntity>(sql, parameters);
         return result;
     }
 
-    public async Task<IEnumerable<UserDataModel>?> GetListAsync(GetUserListParameterModel parameterModel)
+    public async Task<IEnumerable<UserEntity>?> GetListAsync(GetUserListParameterModel parameterModel)
     {
         var sqlbuilder = new UserSqlBuilder<GetUserListParameterModel>("SELECT * FROM Users WHERE 1=1", parameterModel)
             .QueryName()
@@ -74,7 +93,7 @@ public class UserRepository
         var sql = sqlbuilder.BuildSql();
         var parameters = sqlbuilder.BuildParameters();
         using var conn = new SqlConnection(_dbConnectionOption.AuthorizationConnection);
-        var result = await conn.QueryAsync<UserDataModel>(sql, parameters);
+        var result = await conn.QueryAsync<UserEntity>(sql, parameters);
         return result;
     }
 }

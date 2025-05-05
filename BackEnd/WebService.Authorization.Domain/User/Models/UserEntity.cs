@@ -16,8 +16,8 @@ public class UserEntity
     public DateTime CreateTime { get; private set; }
     public Guid Creator { get; private set; }
     public bool Enable { get; private set; }
-
-    public UserEntity() { }
+    public DateTime? LastModified { get; private set; }
+    public Guid? LastModifiedBy { get; private set; }
 
     private UserEntity(
         Guid id,
@@ -30,7 +30,10 @@ public class UserEntity
         string? address,
         DateTime createTime,
         Guid creator,
-        bool enable)
+        bool enable,
+        DateTime? lastModified,
+        Guid? lastModifiedBy
+        )
     {
         Id = id;
         Name = name;
@@ -43,6 +46,8 @@ public class UserEntity
         CreateTime = createTime;
         Creator = creator;
         Enable = enable;
+        LastModified = lastModified;
+        LastModifiedBy = lastModifiedBy;
     }
 
     public static UserEntity Create(
@@ -66,7 +71,49 @@ public class UserEntity
             address,
             DateTime.UtcNow,
             creator,
-            enable: true
+            enable: true,
+            null,
+            null
         );
+    }
+
+    public void Update(
+        string name,
+        string regionBusinessUnit,
+        string? email,
+        string? phone,
+        string? address,
+        Guid modifiedBy
+        )
+    {
+        Name = name;
+        RegionBusinessUnit = regionBusinessUnit;
+        Email = email;
+        Phone = phone;
+        Address = address;
+        LastModifiedBy = modifiedBy;
+        LastModified = DateTime.UtcNow;
+    }
+
+    public void ResetPassword
+        (
+        string resetPassword,
+        Guid modifiedBy
+        )
+    {
+        Password = resetPassword;
+        LastModifiedBy = modifiedBy;
+        LastModified = DateTime.UtcNow;
+    }
+
+    public void SetEnableState
+        (
+        bool enable,
+        Guid modifiedBy
+        )
+    {
+        Enable = enable;
+        LastModifiedBy = modifiedBy;
+        LastModified = DateTime.UtcNow;
     }
 }

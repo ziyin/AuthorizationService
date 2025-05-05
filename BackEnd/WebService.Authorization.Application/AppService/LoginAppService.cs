@@ -19,14 +19,12 @@ public class LoginAppService
     IValidateLoginManager validateLoginManager,
     IUserRepository userRepository,
     IUserRoleRepository userRoleRepository,
-    IMapper mapper,
     IJwtTokenGenerator jwtTokenGenerator
     ) : ILoginAppService
 {
     private readonly IValidateLoginManager _validateLoginManager = validateLoginManager;
     private readonly IUserRepository _userRepository = userRepository;
     private readonly IUserRoleRepository _userRoleRepository = userRoleRepository;
-    private readonly IMapper _mapper = mapper;
     private readonly IJwtTokenGenerator _jwtTokenGenerator = jwtTokenGenerator;
 
     public async Task<LoginDto> HandleAsync(LoginParameterDto parameterDto)
@@ -51,19 +49,18 @@ public class LoginAppService
 
     #region --Private
 
-    private async Task<UserDataModel?> GetUserDataAsync(string account)
+    private async Task<UserEntity?> GetUserDataAsync(string account)
     {
         return await _userRepository.GetAsync(new GetUserParameterModel { Account = account });
     }
 
-    private bool IsPasswordValid(UserDataModel userData, string password, out string? error)
+    private bool IsPasswordValid(UserEntity userData, string password, out string? error)
     {
-        var userEntity = _mapper.Map<UserEntity>(userData);
-        error = _validateLoginManager.Handle(userEntity, password);
+        error = _validateLoginManager.Handle(userData, password);
         return string.IsNullOrWhiteSpace(error);
     }
 
-    private string GenerateAccessToken(UserDataModel userData, IEnumerable<UserRoleDataModel>? userRoleDataModels)
+    private string GenerateAccessToken(UserEntity userData, IEnumerable<UserRoleDataModel>? userRoleDataModels)
     {
         var roles = userRoleDataModels is null ?
                     Enumerable.Empty<string>() :

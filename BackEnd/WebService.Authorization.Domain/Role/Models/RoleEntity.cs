@@ -1,6 +1,4 @@
-﻿using WebService.Authorization.Domain.User.Models;
-
-namespace WebService.Authorization.Domain.Role.Models;
+﻿namespace WebService.Authorization.Domain.Role.Models;
 
 public class RoleEntity
 {
@@ -30,7 +28,7 @@ public class RoleEntity
         return new RoleEntity(
             Guid.Empty,
             name,
-            enable:true,
+            enable: true,
             DateTime.UtcNow,
             creator
         );

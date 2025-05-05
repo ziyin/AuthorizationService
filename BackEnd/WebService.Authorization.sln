@@ -21,7 +21,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebService.Authorization.Sh
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebService.Authorization.HttpApi", "WebService.Authorization.HttpApi\WebService.Authorization.HttpApi.csproj", "{0409231E-020B-4896-AA83-89C080BE6106}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CustomerAuthorization", "..\..\Sdk\CustomerAuthorization\CustomerAuthorization\CustomerAuthorization.csproj", "{615F8B41-F470-4888-8A4F-CFBB1704ACDA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CustomerAuthorization", "..\..\Sdk\CustomerAuthorization\CustomerAuthorization\CustomerAuthorization.csproj", "{AE220F9B-0B18-440C-B2AA-E942EF0B1C63}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,10 +57,10 @@ Global
 		{0409231E-020B-4896-AA83-89C080BE6106}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0409231E-020B-4896-AA83-89C080BE6106}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0409231E-020B-4896-AA83-89C080BE6106}.Release|Any CPU.Build.0 = Release|Any CPU
-		{615F8B41-F470-4888-8A4F-CFBB1704ACDA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{615F8B41-F470-4888-8A4F-CFBB1704ACDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{615F8B41-F470-4888-8A4F-CFBB1704ACDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{615F8B41-F470-4888-8A4F-CFBB1704ACDA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AE220F9B-0B18-440C-B2AA-E942EF0B1C63}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE220F9B-0B18-440C-B2AA-E942EF0B1C63}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE220F9B-0B18-440C-B2AA-E942EF0B1C63}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE220F9B-0B18-440C-B2AA-E942EF0B1C63}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

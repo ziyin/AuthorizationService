@@ -4,6 +4,7 @@ using CustomerAuthorization.Interfaces;
 using Mapster;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using System.Security.Claims;
 using System.Text;
 using WebService.Authorization.Application;
@@ -17,13 +18,33 @@ builder.Services.AddControllers(options =>
     options.Conventions.Add(new RouteTokenTransformerConvention(new KebabCaseParameterTransformer()));
 });
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 
 var confiruare = builder.Configuration;
-builder.Services.DependencyInjectionOption(confiruare);
-builder.Services.DependencyInjectionClass();
 
-#region Auth
+#region -- Swagger
+builder.Services.AddSwaggerGen(swaggersetting =>
+{
+    swaggersetting.SwaggerDoc("v1", new OpenApiInfo { Title = "Authorization API", Version = "v1" });
+
+    swaggersetting.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        In = ParameterLocation.Header,
+        Name = "Authorization",
+        Type = SecuritySchemeType.ApiKey,
+        Description = "Format:Bearer {token}",
+    });
+
+    swaggersetting.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme { Reference = new OpenApiReference { Id = "Bearer", Type = ReferenceType.SecurityScheme } },
+            Array.Empty<string>()
+        }
+    });
+});
+#endregion
+
+#region -- Auth
 
 builder.Services.AddJwtSdk(confiruare);
 var jwtSection = builder.Configuration.GetSection("JwtToken");
@@ -55,15 +76,22 @@ builder.Services.AddScoped<IGetCurrentUser>(provider =>
 });
 #endregion
 
+#region --Mapster
+
 builder.Services.AddMapster();
 ApplicationMappingConfig.RegisterMappings();
 
+#endregion
+
+#region --Dependency Injection
+builder.Services.DependencyInjectionOption(confiruare);
+builder.Services.DependencyInjectionClass();
+#endregion
+
 var app = builder.Build();
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 

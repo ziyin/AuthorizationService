@@ -15,7 +15,7 @@ public class UserController
     ) : ControllerBase
 {
     private readonly IUserAppService _userAppService = userAppService;
-    private readonly IGetCurrentUser _getCurrentUser = getCurrentUser;
+    private readonly Guid _currentUserId = Guid.Parse(getCurrentUser.UserId);
 
     [HttpPost]
     public async Task<IActionResult> CreateAsync([FromBody] CreateUserRequest request)
@@ -24,7 +24,7 @@ public class UserController
         {
             Account = request.Account,
             Address = request.Address,
-            Creator = Guid.Parse(_getCurrentUser.UserId),
+            Creator = _currentUserId,
             Email = request.Email,
             Name = request.Name,
             Password = request.Password,
@@ -36,14 +36,45 @@ public class UserController
     }
 
     [HttpPut("{userId}")]
-    public async Task<IActionResult> UpdateAsync(Guid userId)
+    public async Task<IActionResult> UpdateAsync(Guid userId, [FromBody] UpdateUserRequest request)
     {
+        var updateUserParameter = new UpdateUserParameterDto
+        {
+            UserId = userId,
+            Address = request.Address,
+            Email = request.Email,
+            Name = request.Name,
+            Phone = request.Phone,
+            RegionBusinessUnit = request.RegionBusinessUnit,
+            LastModifiedBy = _currentUserId
+        };
+        await _userAppService.UpdateAsync(updateUserParameter);
+        return NoContent();
+    }
+
+    [HttpPatch("{userId}")]
+    public async Task<IActionResult> ResetPassword(Guid userId, [FromBody] ResetPasswordRequest request)
+    {
+        var resetParameterDto = new ResetPasswordParameterDto
+        {
+            UserId = userId,
+            Password = request.Password,
+            LastModifiedBy = _currentUserId
+        };
+        await _userAppService.ResetPasswordAsync(resetParameterDto);
         return NoContent();
     }
 
     [HttpDelete("{userId}")]
-    public async Task<IActionResult> DeleteAsync()
+    public async Task<IActionResult> DeleteAsync(Guid userId)
     {
+        var setEnableParameterDto = new SetEnableParameterDto
+        {
+            UserId = userId,
+            Enable = false,
+            LastModifiedBy = _currentUserId
+        };
+        await _userAppService.SetEnableAsync(setEnableParameterDto);
         return NoContent();
     }
 }

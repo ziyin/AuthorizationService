@@ -6,8 +6,7 @@ namespace WebService.Authorization.Domain.User.Interfaces;
 public interface IUserRepository
 {
     Task<Guid> CreateAsync(UserEntity parameterModel);
-
-    Task<UserDataModel?> GetAsync(GetUserParameterModel parameterModel);
-
-    Task<IEnumerable<UserDataModel>?> GetListAsync(GetUserListParameterModel parameterModel);
+    Task UpdateAsync(UserEntity userEntity);
+    Task<UserEntity?> GetAsync(GetUserParameterModel parameterModel);
+    Task<IEnumerable<UserEntity>?> GetListAsync(GetUserListParameterModel parameterModel);
 }
