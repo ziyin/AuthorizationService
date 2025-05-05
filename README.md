@@ -8,4 +8,58 @@ CREATE USER authorizationSa FOR LOGIN authorizationSa;
 
 ALTER ROLE db_datareader ADD MEMBER authorizationSa; 
 ALTER ROLE db_datawriter ADD MEMBER authorizationSa;
-```s
+```
+
+- User Table
+```
+CREATE TABLE Users
+(
+    Id UNIQUEIDENTIFIER NOT NULL PRIMARY KEY DEFAULT NEWID(),
+    [Name] NVARCHAR(100) NOT NULL,
+    Account NVARCHAR(100) NOT NULL,
+    [Password] NVARCHAR(100) NOT NULL,
+    RegionBusinessUnit VARCHAR(10) NOT NULL,
+    Email NVARCHAR(255) NULL,
+    Phone NVARCHAR(50) NULL,
+    [Address] NVARCHAR(255) NULL,
+    CreateTime DATETIME NOT NULL DEFAULT GETDATE(),
+    Creator UNIQUEIDENTIFIER NOT NULL
+);
+
+ALTER TABLE Users ADD [Enable] BIT NOT NULL DEFAULT 1;
+ALTER TABLE Users ADD LastModified DATETIME NULL;
+ALTER TABLE Users ADD LastModifiedBy UNIQUEIDENTIFIER NULL;
+
+CREATE INDEX IX_Users_Account ON Users(Account);
+```
+
+- Roles Table
+```
+CREATE TABLE Roles (
+    Id UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
+    [Name] NVARCHAR(100) NOT NULL UNIQUE,
+    [Enable] BIT NOT NULL DEFAULT 1,
+    CreateTime DATETIME NOT NULL DEFAULT GETDATE(),
+    Creator UNIQUEIDENTIFIER NOT NULL
+);
+
+CREATE INDEX IX_Roles_Name ON Roles(Name);
+```
+
+- UserRoles Table
+```
+CREATE TABLE UserRoles (
+    Id UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
+
+    UserId UNIQUEIDENTIFIER NOT NULL,
+    RoleId UNIQUEIDENTIFIER NOT NULL,
+
+    CreateTime DATETIME NOT NULL DEFAULT GETDATE(),
+    Creator UNIQUEIDENTIFIER NOT NULL,
+
+    CONSTRAINT FK_UserRoles_User FOREIGN KEY (UserId) REFERENCES Users(Id),
+    CONSTRAINT FK_UserRoles_Role FOREIGN KEY (RoleId) REFERENCES Roles(Id),
+
+    CONSTRAINT UQ_UserRoles_UserId_RoleId UNIQUE (UserId, RoleId)
+);
+```
