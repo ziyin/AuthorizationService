@@ -29,4 +29,10 @@ public class UserSqlBuilder<T>
         var value = GetPropertyValue("RegionBusinessUnit");
         return (UserSqlBuilder<T>)WhereIf("RegionBusinessUnit = @RegionBusinessUnit", "RegionBusinessUnit", value);
     }
+
+    public UserSqlBuilder<T> QueryEnable()
+    {
+        var value = GetPropertyValue("Enable");
+        return (UserSqlBuilder<T>)WhereIf("Enable = @Enable", "Enable", value);
+    }
 }

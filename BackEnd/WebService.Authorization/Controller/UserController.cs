@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using WebService.Authorization.Application.Contracts.Interfaces;
 using WebService.Authorization.Application.Contracts.PrameterDtos.Users;
+using WebService.Authorization.Application.Contracts.ResponseDtos.User;
 using WebService.Authorization.HttpApi.Request.User;
 
 namespace WebService.Authorization.HttpApi.Host.Controller;
@@ -10,12 +11,34 @@ namespace WebService.Authorization.HttpApi.Host.Controller;
 [ApiController]
 public class UserController
     (
-    IUserAppService userAppService,
+    IUserInformationAppService userInformationAppService,
+    IUserMaintainAppService userMaintainAppService,
     IGetCurrentUser getCurrentUser
     ) : ControllerBase
 {
-    private readonly IUserAppService _userAppService = userAppService;
+    private readonly IUserInformationAppService _userInformationAppService = userInformationAppService;
+    private readonly IUserMaintainAppService _userMaintainAppService = userMaintainAppService;
     private readonly Guid _currentUserId = Guid.Parse(getCurrentUser.UserId);
+
+    [HttpGet("{userId}")]
+    public async Task<IActionResult> GetAsync(Guid userId)
+    {
+        var userData = await _userInformationAppService.GetAsync(userId);
+        return userData is null ? NotFound() : Ok(userData);
+    }
+
+    [HttpGet("list")]
+    public async Task<IActionResult> GetListAsync([FromQuery] GetUserListRequest request)
+    {
+        var userDatas = await _userInformationAppService.GetListAsync(new GetUserListParameterDto
+        {
+            Name = request.Name,
+            Account = request.Account,
+            RegionBusinessUnit = request.RegionBusinessUnit,
+            Enable = request.Enable
+        });
+        return userDatas is null ? Ok(Enumerable.Empty<UserDto>()) : Ok(userDatas);
+    }
 
     [HttpPost]
     public async Task<IActionResult> CreateAsync([FromBody] CreateUserRequest request)
@@ -31,7 +54,7 @@ public class UserController
             Phone = request.Phone,
             RegionBusinessUnit = request.RegionBusinessUnit
         };
-        var createUserId = await _userAppService.CreateAsync(createParmeterDto);
+        var createUserId = await _userMaintainAppService.CreateAsync(createParmeterDto);
         return Ok(createUserId);
     }
 
@@ -48,7 +71,7 @@ public class UserController
             RegionBusinessUnit = request.RegionBusinessUnit,
             LastModifiedBy = _currentUserId
         };
-        await _userAppService.UpdateAsync(updateUserParameter);
+        await _userMaintainAppService.UpdateAsync(updateUserParameter);
         return NoContent();
     }
 
@@ -61,7 +84,7 @@ public class UserController
             Password = request.Password,
             LastModifiedBy = _currentUserId
         };
-        await _userAppService.ResetPasswordAsync(resetParameterDto);
+        await _userMaintainAppService.ResetPasswordAsync(resetParameterDto);
         return NoContent();
     }
 
@@ -74,7 +97,7 @@ public class UserController
             Enable = false,
             LastModifiedBy = _currentUserId
         };
-        await _userAppService.SetEnableAsync(setEnableParameterDto);
+        await _userMaintainAppService.SetEnableAsync(setEnableParameterDto);
         return NoContent();
     }
 }

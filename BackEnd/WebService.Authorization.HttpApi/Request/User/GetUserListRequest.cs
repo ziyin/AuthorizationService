@@ -1,6 +1,6 @@
-﻿namespace WebService.Authorization.Domain.User.Models.Parameters;
+﻿namespace WebService.Authorization.HttpApi.Request.User;
 
-public class GetUserListParameterModel
+public class GetUserListRequest
 {
     public string? Name { get; set; }
     public string? Account { get; set; }

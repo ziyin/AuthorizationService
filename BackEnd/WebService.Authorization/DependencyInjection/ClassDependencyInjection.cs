@@ -19,7 +19,8 @@ public static class ClassDependencyInjection
 
         services.AddTransient<ILoginAppService, LoginAppService>();
         services.AddTransient<IRoleAppService, RoleAppService>();
-        services.AddTransient<IUserAppService, UserAppService>();
+        services.AddTransient<IUserInformationAppService, UserInformationAppService>();
+        services.AddTransient<IUserMaintainAppService, UserMaintainAppService>();
         services.AddTransient<IUserRoleAppService, UserRoleAppService > ();
 
         #endregion
