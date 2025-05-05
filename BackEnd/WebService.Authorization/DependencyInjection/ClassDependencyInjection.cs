@@ -1,7 +1,13 @@
 ﻿using WebService.Authorization.Application.AppService;
 using WebService.Authorization.Application.Contracts.Interfaces;
+using WebService.Authorization.Domain.Login;
+using WebService.Authorization.Domain.Login.Interfaces;
+using WebService.Authorization.Domain.Role.Interfaces;
 using WebService.Authorization.Domain.User.Interfaces;
-using WebService.Authorization.Infrastructure.Repository;
+using WebService.Authorization.Domain.UserRole.Interface;
+using WebService.Authorization.Infrastructure.Repository.Role;
+using WebService.Authorization.Infrastructure.Repository.User;
+using WebService.Authorization.Infrastructure.Repository.UserRole;
 
 namespace WebService.Authorization.HttpApi.Host.DependencyInjection;
 
@@ -11,13 +17,24 @@ public static class ClassDependencyInjection
     {
         #region AppService
 
+        services.AddTransient<ILoginAppService, LoginAppService>();
+        services.AddTransient<IRoleAppService, RoleAppService>();
         services.AddTransient<IUserAppService, UserAppService>();
+        services.AddTransient<IUserRoleAppService, UserRoleAppService > ();
+
+        #endregion
+
+        #region Manager
+
+        services.AddTransient<IValidateLoginManager, ValidateLoginManager>();
 
         #endregion
 
         #region repository
 
+        services.AddScoped<IRoleRepository, RoleRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IUserRoleRepository, UserRoleRepository>();
 
         #endregion
     }

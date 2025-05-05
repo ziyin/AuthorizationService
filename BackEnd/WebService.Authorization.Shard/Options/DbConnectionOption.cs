@@ -1,4 +1,4 @@
-﻿namespace WebService.Authorization.Infrastructure.Options;
+﻿namespace WebService.Authorization.Shard.Options;
 
 public class DbConnectionOption
 {

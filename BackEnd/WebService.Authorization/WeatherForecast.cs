@@ -1,4 +1,4 @@
-namespace WebService.Authorization
+namespace WebService.Authorization.HttpApi.Host
 {
     public class WeatherForecast
     {

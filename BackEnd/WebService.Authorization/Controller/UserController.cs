@@ -1,18 +1,21 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using CustomerAuthorization.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 using WebService.Authorization.Application.Contracts.Interfaces;
 using WebService.Authorization.Application.Contracts.PrameterDtos.Users;
-using WebService.Authorization.HttpApi.User.Models.Requests;
+using WebService.Authorization.HttpApi.Request.User;
 
 namespace WebService.Authorization.HttpApi.Host.Controller;
 
-[Route("api/[controller]")]
+[Route("api/authorization/[controller]")]
 [ApiController]
 public class UserController
     (
-    IUserAppService userAppService
+    IUserAppService userAppService,
+    IGetCurrentUser getCurrentUser
     ) : ControllerBase
 {
     private readonly IUserAppService _userAppService = userAppService;
+    private readonly IGetCurrentUser _getCurrentUser = getCurrentUser;
 
     [HttpPost]
     public async Task<IActionResult> CreateAsync([FromBody] CreateUserRequest request)
@@ -21,14 +24,14 @@ public class UserController
         {
             Account = request.Account,
             Address = request.Address,
-            Creator = Guid.NewGuid(),
+            Creator = Guid.Parse(_getCurrentUser.UserId),
             Email = request.Email,
             Name = request.Name,
             Password = request.Password,
             Phone = request.Phone,
             RegionBusinessUnit = request.RegionBusinessUnit
         };
-        var createUserId=await _userAppService.CreateAsync(createParmeterDto);
+        var createUserId = await _userAppService.CreateAsync(createParmeterDto);
         return Ok(createUserId);
     }
 

@@ -1,4 +1,4 @@
-﻿namespace WebService.Authorization.HttpApi.User.Models.Requests;
+﻿namespace WebService.Authorization.HttpApi.Request.User;
 
 public class CreateUserRequest
 {

@@ -1,9 +1,9 @@
-﻿namespace WebService.Authorization.HttpApi.Role.Models;
+﻿namespace WebService.Authorization.HttpApi.Request.Role;
 
 /// <summary>
 /// 更新角色的Request
 /// </summary>
-public class UpdateRequest
+public class UpdateRoleRequest
 {
     /// <summary>
     /// 角色名稱

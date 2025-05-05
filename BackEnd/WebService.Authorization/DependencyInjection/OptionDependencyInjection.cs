@@ -1,4 +1,4 @@
-﻿using WebService.Authorization.Infrastructure.Options;
+﻿using WebService.Authorization.Shard.Options;
 
 namespace WebService.Authorization.HttpApi.Host.DependencyInjection;
 

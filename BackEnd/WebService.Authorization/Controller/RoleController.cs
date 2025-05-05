@@ -1,20 +1,32 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using WebService.Authorization.HttpApi.Role.Models;
+using WebService.Authorization.Application.Contracts.Interfaces;
+using WebService.Authorization.Application.Contracts.PrameterDtos.Roles;
+using WebService.Authorization.HttpApi.Request.Role;
 
 namespace WebService.Authorization.HttpApi.Host.Controller;
 
 [Route("api/authorization/[controller]")]
 [ApiController]
-public class RoleController : ControllerBase
+public class RoleController
+    (
+    IRoleAppService roleAppService
+    ) : ControllerBase
 {
+    private readonly IRoleAppService _roleAppService = roleAppService;
+
     [HttpPost]
-    public async Task<IActionResult> CreateAsync([FromBody] AddRoleRequest request)
+    public async Task<IActionResult> CreateAsync([FromBody] CreateRoleRequest request)
     {
-        return Created();
+        var parameterDto = new CreateRoleParameterDto
+        {
+            RoleName = request.RoleName
+        };
+        var roleId = await _roleAppService.CreateAsync(parameterDto);
+        return Ok(roleId);
     }
 
     [HttpPut("{roleId}")]
-    public async Task<IActionResult> UpdateAsync([FromBody] UpdateRequest request)
+    public async Task<IActionResult> UpdateAsync([FromBody] UpdateRoleRequest request)
     {
         return NoContent();
     }

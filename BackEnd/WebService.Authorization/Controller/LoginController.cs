@@ -1,27 +1,27 @@
-﻿using CustomerAuthorization.GenerateToken.Interfaces;
-using CustomerAuthorization.GenerateToken.Model;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using WebService.Authorization.Application.Contracts.Interfaces;
+using WebService.Authorization.HttpApi.Request.Login;
+
 
 namespace WebService.Authorization.HttpApi.Host.Controller;
 
-[Route("api/[controller]")]
+[Route("api/authorization/[controller]")]
 [ApiController]
 public class LoginController
     (
-    IJwtTokenGenerator jwtTokenGenerator
-    ): ControllerBase
+    ILoginAppService loginAppService
+    ) : ControllerBase
 {
-    private readonly IJwtTokenGenerator _jwtTokenGenerator= jwtTokenGenerator;
+    private readonly ILoginAppService _loginAppService = loginAppService;
 
-    [HttpGet]
-    public async Task<IActionResult> LoginAsync()
+    [HttpPost]
+    public async Task<IActionResult> HandleAsync(LoginRequest loginRequest)
     {
-        var result = _jwtTokenGenerator.GenerateToken(new GenerateTokenParameter
+        var result = await _loginAppService.HandleAsync(new Application.Contracts.PrameterDtos.Login.LoginParameterDto
         {
-            Roles=new List<string> {"gfdg" },
-            UserId="asf",
-            UserName="123"
+            Account = loginRequest.Account,
+            Password = loginRequest.Password,
         });
-        return Ok(result);
+        return string.IsNullOrWhiteSpace(result.AccessToken) ? Forbid(result.ErrorMessage!) : Ok(result.AccessToken!);
     }
 }

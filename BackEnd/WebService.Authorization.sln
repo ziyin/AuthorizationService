@@ -19,7 +19,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebService.Authorization.In
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebService.Authorization.Shard", "WebService.Authorization.Shard\WebService.Authorization.Shard.csproj", "{F5749873-3FCB-4C05-992A-66EC35DD82F9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebService.Authorization.HttpApi", "WebService.Authorization.HttpApi\WebService.Authorization.HttpApi.csproj", "{0409231E-020B-4896-AA83-89C080BE6106}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebService.Authorization.HttpApi", "WebService.Authorization.HttpApi\WebService.Authorization.HttpApi.csproj", "{0409231E-020B-4896-AA83-89C080BE6106}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CustomerAuthorization", "..\..\Sdk\CustomerAuthorization\CustomerAuthorization\CustomerAuthorization.csproj", "{615F8B41-F470-4888-8A4F-CFBB1704ACDA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,6 +57,10 @@ Global
 		{0409231E-020B-4896-AA83-89C080BE6106}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0409231E-020B-4896-AA83-89C080BE6106}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0409231E-020B-4896-AA83-89C080BE6106}.Release|Any CPU.Build.0 = Release|Any CPU
+		{615F8B41-F470-4888-8A4F-CFBB1704ACDA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{615F8B41-F470-4888-8A4F-CFBB1704ACDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{615F8B41-F470-4888-8A4F-CFBB1704ACDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{615F8B41-F470-4888-8A4F-CFBB1704ACDA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

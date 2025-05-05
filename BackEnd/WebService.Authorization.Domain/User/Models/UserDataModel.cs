@@ -21,4 +21,6 @@ public class UserDataModel
     public DateTime CreateTime { get; set; }
 
     public Guid Creator { get; set; }
+
+    public bool Enable { get; set; }
 }
