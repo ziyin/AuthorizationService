@@ -13,11 +13,13 @@ public class UserController
     (
     IUserInformationAppService userInformationAppService,
     IUserMaintainAppService userMaintainAppService,
+    IUserRoleAppService userRoleAppService,
     IGetCurrentUser getCurrentUser
     ) : ControllerBase
 {
     private readonly IUserInformationAppService _userInformationAppService = userInformationAppService;
     private readonly IUserMaintainAppService _userMaintainAppService = userMaintainAppService;
+    private readonly IUserRoleAppService _userRoleAppService = userRoleAppService;
     private readonly Guid _currentUserId = Guid.Parse(getCurrentUser.UserId);
 
     [HttpGet("{userId}")]
@@ -99,5 +101,17 @@ public class UserController
         };
         await _userMaintainAppService.SetEnableAsync(setEnableParameterDto);
         return NoContent();
+    }
+
+    [HttpPost("set-roles/{userId}")]
+    public async Task<IActionResult> SetRoleAsync(Guid userId, [FromBody] SetUserRoleRequest request)
+    {
+        var settingCount = await _userRoleAppService.CreateAsync(new CreateUserRoleParameterDto
+        {
+            UserId = userId,
+            RoleIds = request.RoleIds,
+            Creator = _currentUserId
+        });
+        return settingCount>0?Ok($"Binding {settingCount} role(s)."):BadRequest("No roles are bound.");
     }
 }

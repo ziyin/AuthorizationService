@@ -40,4 +40,15 @@ public class UserRoleEntity
     {
         return new UserRoleEntity(userId, roleId, creator);
     }
+
+    public static IEnumerable<UserRoleEntity> CreateManyRoles
+    (
+    Guid userId,
+    IEnumerable<Guid> roleIds,
+    Guid creator
+    )
+    {
+        var userRoleEntities = roleIds.Select(item => Create(userId, item, creator));
+        return userRoleEntities;
+    }
 }

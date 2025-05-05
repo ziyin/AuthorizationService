@@ -1,3 +1,14 @@
+## First time use
+1. Please create the database first and update the connection string in appsettings.
+2. Please use the "Create System Administrator" API to set up the system administrator first.
+
+※ use customer sdk
+
+=> [Authorization SDK](https://github.com/ziyin/AuthroizationSdk.git)
+
+=> [Elastic SDK](https://github.com/ziyin/AuthroizationSdk.git)
+...need update appsetting elastic endpoint
+
 ## SQL setting
 - Create User
 ```

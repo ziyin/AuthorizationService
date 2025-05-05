@@ -29,7 +29,7 @@ public class RoleRepository
                     (
                         @Name,
                         GETDATE(), 
-                        @Creatosr, 
+                        @Creator, 
                         @Enable
                     );
                     ";
@@ -50,6 +50,17 @@ public class RoleRepository
         var parameters = sqlbuilder.BuildParameters();
         using var conn = new SqlConnection(_dbConnectionOption.AuthorizationConnection);
         var result = await conn.QueryFirstOrDefaultAsync<RoleEntity>(sql, parameters);
+        return result;
+    }
+
+    public async Task<IEnumerable<RoleEntity>?> GetListAsync(GetRoleListParameterModel parameterModel)
+    {
+        var sqlbuilder = new RoleSqlBuilder<GetRoleListParameterModel>("SELECT * FROM Roles WHERE 1=1", parameterModel)
+            .QueryRoleIds();
+        var sql = sqlbuilder.BuildSql();
+        var parameters = sqlbuilder.BuildParameters();
+        using var conn = new SqlConnection(_dbConnectionOption.AuthorizationConnection);
+        var result = await conn.QueryAsync<RoleEntity>(sql, parameters);
         return result;
     }
 }

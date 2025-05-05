@@ -41,13 +41,36 @@ public class UserRoleRepository
         await connection.ExecuteAsync(sql, userRoleEntity);
     }
 
+    public async Task CreateManyAsync(IEnumerable<UserRoleEntity> userRoleEntities)
+    {
+        var sql = @"
+                    INSERT INTO UserRoles
+                    (
+                        UserId, 
+                        RoleId,
+                        Creator,
+                        CreateTime
+                    )
+                    VALUES
+                    (
+                        @UserId,
+                        @RoleId, 
+                        @Creator, 
+                        GETDATE()
+                    )
+                   ";
+
+        using var connection = new SqlConnection(_dbConnectionOption.AuthorizationConnection);
+        await connection.ExecuteAsync(sql, userRoleEntities);
+    }
+
     public async Task<IEnumerable<UserRoleDataModel>?> GetListAsync(GetUserRoleListParameterModel parameterModel)
     {
         var sqlBaseCommand = @"SELECT 
                                 	UR.Id,
                                 	UR.UserId,
                                 	UR.RoleId,
-                                	Roles.[Name],
+                                	Roles.[Name] as RoleName,
                                 	UR.CreateTime,
                                 	UR.Creator
                                 FROM UserRoles UR WITH(NOLOCK)

@@ -3,6 +3,7 @@ using WebService.Authorization.Application.Contracts.Interfaces;
 using WebService.Authorization.Domain.Login;
 using WebService.Authorization.Domain.Login.Interfaces;
 using WebService.Authorization.Domain.Role.Interfaces;
+using WebService.Authorization.Domain.User;
 using WebService.Authorization.Domain.User.Interfaces;
 using WebService.Authorization.Domain.UserRole.Interface;
 using WebService.Authorization.Infrastructure.Repository.Role;
@@ -28,6 +29,7 @@ public static class ClassDependencyInjection
         #region Manager
 
         services.AddTransient<IValidateLoginManager, ValidateLoginManager>();
+        services.AddTransient<IBindUserToRoleManager, BindUserToRoleManager>();
 
         #endregion
 
