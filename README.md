@@ -74,3 +74,18 @@ CREATE TABLE UserRoles (
     CONSTRAINT UQ_UserRoles_UserId_RoleId UNIQUE (UserId, RoleId)
 );
 ```
+
+- Permission Table
+```
+CREATE TABLE Permissions (
+    Id UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
+    Code NVARCHAR(100) NOT NULL UNIQUE,
+    Name NVARCHAR(100) NOT NULL,
+    Enable BIT NOT NULL DEFAULT 1,
+    CreateTime DATETIME NOT NULL DEFAULT GETDATE(),
+    Creator UNIQUEIDENTIFIER NOT NULL,
+    LastModified DATETIME NULL,
+    LastModifiedBy UNIQUEIDENTIFIER NULL
+);
+
+```

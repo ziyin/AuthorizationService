@@ -2,10 +2,12 @@
 using WebService.Authorization.Application.Contracts.Interfaces;
 using WebService.Authorization.Domain.Login;
 using WebService.Authorization.Domain.Login.Interfaces;
+using WebService.Authorization.Domain.Permission.Interface;
 using WebService.Authorization.Domain.Role.Interfaces;
 using WebService.Authorization.Domain.User;
 using WebService.Authorization.Domain.User.Interfaces;
 using WebService.Authorization.Domain.UserRole.Interface;
+using WebService.Authorization.Infrastructure.Repository.Permission;
 using WebService.Authorization.Infrastructure.Repository.Role;
 using WebService.Authorization.Infrastructure.Repository.User;
 using WebService.Authorization.Infrastructure.Repository.UserRole;
@@ -16,29 +18,36 @@ public static class ClassDependencyInjection
 {
     public static void DependencyInjectionClass(this IServiceCollection services)
     {
-        #region AppService
+        services.AppSerivceDependencyInjection();
+        services.ManagerDependencyInjection();
+        services.RepositoryDependencyInjection();
+    }
 
+    #region --Private
+
+    private static void AppSerivceDependencyInjection(this IServiceCollection services)
+    {
         services.AddTransient<ILoginAppService, LoginAppService>();
+        services.AddTransient<IPermissionAppService, PermissionAppService>();
         services.AddTransient<IRoleAppService, RoleAppService>();
         services.AddTransient<IUserInformationAppService, UserInformationAppService>();
         services.AddTransient<IUserMaintainAppService, UserMaintainAppService>();
-        services.AddTransient<IUserRoleAppService, UserRoleAppService > ();
+        services.AddTransient<IUserRoleAppService, UserRoleAppService>();
+    }
 
-        #endregion
-
-        #region Manager
-
+    private static void ManagerDependencyInjection(this IServiceCollection services)
+    {
         services.AddTransient<IValidateLoginManager, ValidateLoginManager>();
         services.AddTransient<IBindUserToRoleManager, BindUserToRoleManager>();
+    }
 
-        #endregion
-
-        #region repository
-
+    private static void RepositoryDependencyInjection(this IServiceCollection services)
+    {
+        services.AddScoped<IPermissionRepository, PermissionRepository>();
         services.AddScoped<IRoleRepository, RoleRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IUserRoleRepository, UserRoleRepository>();
-
-        #endregion
     }
+
+    #endregion
 }
