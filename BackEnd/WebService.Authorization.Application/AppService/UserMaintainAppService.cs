@@ -7,10 +7,10 @@ using WebService.Authorization.Domain.User.Models.Parameters;
 
 namespace WebService.Authorization.Application.AppService;
 
-public class UserAppService
+public class UserMaintainAppService
     (
     IUserRepository userRepository
-    ) : IUserAppService
+    ) : IUserMaintainAppService
 {
     private readonly IUserRepository _userRepository = userRepository;
 

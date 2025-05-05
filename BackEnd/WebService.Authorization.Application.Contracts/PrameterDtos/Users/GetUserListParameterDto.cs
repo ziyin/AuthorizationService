@@ -1,6 +1,6 @@
-﻿namespace WebService.Authorization.Domain.User.Models.Parameters;
+﻿namespace WebService.Authorization.Application.Contracts.PrameterDtos.Users;
 
-public class GetUserListParameterModel
+public class GetUserListParameterDto
 {
     public string? Name { get; set; }
     public string? Account { get; set; }

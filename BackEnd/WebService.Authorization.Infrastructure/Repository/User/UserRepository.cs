@@ -89,7 +89,8 @@ public class UserRepository
         var sqlbuilder = new UserSqlBuilder<GetUserListParameterModel>("SELECT * FROM Users WHERE 1=1", parameterModel)
             .QueryName()
             .QueryAccount()
-            .QueryRegion();
+            .QueryRegion()
+            .QueryEnable();
         var sql = sqlbuilder.BuildSql();
         var parameters = sqlbuilder.BuildParameters();
         using var conn = new SqlConnection(_dbConnectionOption.AuthorizationConnection);

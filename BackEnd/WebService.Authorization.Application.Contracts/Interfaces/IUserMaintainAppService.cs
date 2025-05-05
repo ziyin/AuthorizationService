@@ -2,7 +2,7 @@
 
 namespace WebService.Authorization.Application.Contracts.Interfaces;
 
-public interface IUserAppService
+public interface IUserMaintainAppService
 {
     Task<Guid> CreateAsync(CreateUserParameterDto createUserParameterDto);
     Task UpdateAsync(UpdateUserParameterDto parameterDto);
