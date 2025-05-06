@@ -2,7 +2,7 @@
 
 namespace WebService.Authorization.Application.Contracts.Interfaces;
 
-public interface IRoleAppService
+public interface IRoleMaintainAppService
 {
     Task<Guid> CreateAsync(CreateRoleParameterDto parameterDto);
 }

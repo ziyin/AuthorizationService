@@ -32,7 +32,8 @@ public static class ClassDependencyInjection
     {
         services.AddTransient<ILoginAppService, LoginAppService>();
         services.AddTransient<IPermissionAppService, PermissionAppService>();
-        services.AddTransient<IRoleAppService, RoleAppService>();
+        services.AddTransient<IRoleInformationAppService, RoleInformationAppService>();
+        services.AddTransient<IRoleMaintainAppService, RoleMaintainAppService>();
         services.AddTransient<IRolePermissionAppService, RolePermissionAppService>();
         services.AddTransient<IUserInformationAppService, UserInformationAppService>();
         services.AddTransient<IUserMaintainAppService, UserMaintainAppService>();

@@ -5,6 +5,6 @@ namespace WebService.Authorization.Application.Contracts.Interfaces;
 
 public interface IUserInformationAppService
 {
-    Task<UserDto?> GetAsync(Guid userId);
+    Task<UserDto?> GetAsync(GetUserParameterDto parameterDto);
     Task<IEnumerable<UserDto>?> GetListAsync(GetUserListParameterDto parameterDtos);
 }

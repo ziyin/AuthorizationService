@@ -4,10 +4,10 @@ using WebService.Authorization.Domain.Role.Interfaces;
 using WebService.Authorization.Domain.Role.Models;
 
 namespace WebService.Authorization.Application.AppService;
-public class RoleAppService
+public class RoleMaintainAppService
     (
     IRoleRepository roleRepository
-    ) : IRoleAppService
+    ) : IRoleMaintainAppService
 {
     private readonly IRoleRepository _roleRepository = roleRepository;
 
