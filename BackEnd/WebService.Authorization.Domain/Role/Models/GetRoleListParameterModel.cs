@@ -3,4 +3,5 @@
 public class GetRoleListParameterModel
 {
     public IEnumerable<Guid>? RoleId { get; set; }
+    public IEnumerable<string>? RoleName { get; set; }
 }

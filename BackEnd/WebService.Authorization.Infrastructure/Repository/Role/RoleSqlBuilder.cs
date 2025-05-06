@@ -6,9 +6,15 @@ public class RoleSqlBuilder<T>
     T query
     ) : BaseSqlQueryBuilder<T>(baseSql, query)
 {
-    public RoleSqlBuilder<T> QueryName()
+    public RoleSqlBuilder<T> QueryRoleName()
     {
-        var value = GetPropertyValue("Name");
+        var value = GetPropertyValue("RoleName");
+        if (value is IEnumerable<string> names && names.Any())
+        {
+            _sqlBuilder.Append(" AND Name IN @Names");
+            _parameters.Add("Names", names);
+            return this;
+        }
         return (RoleSqlBuilder<T>)WhereIf("Name = @Name", "Name", value);
     }
 

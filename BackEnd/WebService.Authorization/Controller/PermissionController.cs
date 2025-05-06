@@ -1,7 +1,9 @@
-﻿using CustomerAuthorization.Interfaces;
+﻿using CustomerAuthorization.Attributes;
+using CustomerAuthorization.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using WebService.Authorization.Application.Contracts.Interfaces;
 using WebService.Authorization.Application.Contracts.PrameterDtos.Permission;
+using WebService.Authorization.HttpApi.Constant;
 using WebService.Authorization.HttpApi.Request.Permission;
 
 namespace WebService.Authorization.HttpApi.Host.Controller;
@@ -17,6 +19,7 @@ public class PermissionController
     private readonly IPermissionAppService _permissionAppService = permissionAppService;
     private readonly Guid _currentUserId = Guid.Parse(getCurrentUser.UserId);
 
+    [PermissionAuthorize(PermissionConstant.PermissionEdit)]
     [HttpPost]
     public async Task<IActionResult> CreateAsync([FromBody] CreatePermissionReuqest reuqest)
     {

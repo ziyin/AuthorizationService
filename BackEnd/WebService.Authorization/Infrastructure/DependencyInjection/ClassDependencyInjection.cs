@@ -15,7 +15,7 @@ using WebService.Authorization.Infrastructure.Repository.RolePermission;
 using WebService.Authorization.Infrastructure.Repository.User;
 using WebService.Authorization.Infrastructure.Repository.UserRole;
 
-namespace WebService.Authorization.HttpApi.Host.DependencyInjection;
+namespace WebService.Authorization.HttpApi.Host.Infrastructure.DependencyInjection;
 
 public static class ClassDependencyInjection
 {

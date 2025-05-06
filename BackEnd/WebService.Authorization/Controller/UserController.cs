@@ -1,8 +1,10 @@
-﻿using CustomerAuthorization.Interfaces;
+﻿using CustomerAuthorization.Attributes;
+using CustomerAuthorization.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using WebService.Authorization.Application.Contracts.Interfaces;
 using WebService.Authorization.Application.Contracts.PrameterDtos.Users;
 using WebService.Authorization.Application.Contracts.ResponseDtos.User;
+using WebService.Authorization.HttpApi.Constant;
 using WebService.Authorization.HttpApi.Request.User;
 
 namespace WebService.Authorization.HttpApi.Host.Controller;
@@ -22,6 +24,7 @@ public class UserController
     private readonly IUserRoleAppService _userRoleAppService = userRoleAppService;
     private readonly Guid _currentUserId = Guid.Parse(getCurrentUser.UserId);
 
+    [PermissionAuthorize(PermissionConstant.UserRead)]
     [HttpGet("{userId}")]
     public async Task<IActionResult> GetAsync(Guid userId)
     {
@@ -29,6 +32,7 @@ public class UserController
         return userData is null ? NotFound() : Ok(userData);
     }
 
+    [PermissionAuthorize(PermissionConstant.UserRead)]
     [HttpGet("list")]
     public async Task<IActionResult> GetListAsync([FromQuery] GetUserListRequest request)
     {
@@ -42,6 +46,7 @@ public class UserController
         return userDatas is null ? Ok(Enumerable.Empty<UserDto>()) : Ok(userDatas);
     }
 
+    [PermissionAuthorize(PermissionConstant.UserAdmin)]
     [HttpPost]
     public async Task<IActionResult> CreateAsync([FromBody] CreateUserRequest request)
     {
@@ -60,6 +65,7 @@ public class UserController
         return Ok(createUserId);
     }
 
+    [PermissionAuthorize(PermissionConstant.UserEdit)]
     [HttpPut("{userId}")]
     public async Task<IActionResult> UpdateAsync(Guid userId, [FromBody] UpdateUserRequest request)
     {
@@ -77,6 +83,7 @@ public class UserController
         return NoContent();
     }
 
+    [PermissionAuthorize(PermissionConstant.UserEdit)]
     [HttpPatch("{userId}")]
     public async Task<IActionResult> ResetPassword(Guid userId, [FromBody] ResetPasswordRequest request)
     {
@@ -90,6 +97,7 @@ public class UserController
         return NoContent();
     }
 
+    [PermissionAuthorize(PermissionConstant.UserAdmin)]
     [HttpDelete("{userId}")]
     public async Task<IActionResult> DeleteAsync(Guid userId)
     {
@@ -103,6 +111,7 @@ public class UserController
         return NoContent();
     }
 
+    [PermissionAuthorize(PermissionConstant.UserAdmin)]
     [HttpPost("set-roles/{userId}")]
     public async Task<IActionResult> SetRoleAsync(Guid userId, [FromBody] SetUserRoleRequest request)
     {

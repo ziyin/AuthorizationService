@@ -10,15 +10,15 @@ public class PermissionAppService
     IPermissionRepository permissionRepository
     ) : IPermissionAppService
 {
-    private readonly IPermissionRepository _permissionRepository= permissionRepository;
+    private readonly IPermissionRepository _permissionRepository = permissionRepository;
 
     public async Task CreateAsync(CreatePermissionParmeterDto parmeterDto)
     {
         var createEntity = PermissionEntity.Create
             (
-            code:parmeterDto.Code,
-            name:parmeterDto.Name,
-            creator:parmeterDto.Creator
+            code: parmeterDto.Code,
+            name: parmeterDto.Name,
+            creator: parmeterDto.Creator
             );
         await _permissionRepository.CreateAsync(createEntity);
     }

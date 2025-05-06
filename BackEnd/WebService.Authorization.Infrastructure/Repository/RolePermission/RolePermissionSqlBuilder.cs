@@ -1,4 +1,6 @@
-﻿namespace WebService.Authorization.Infrastructure.Repository.RolePermission;
+﻿using WebService.Authorization.Infrastructure.Repository.Permission;
+
+namespace WebService.Authorization.Infrastructure.Repository.RolePermission;
 
 public class RolePermissionSqlBuilder<T>
     (
@@ -9,6 +11,12 @@ public class RolePermissionSqlBuilder<T>
     public RolePermissionSqlBuilder<T> QueryRoleId()
     {
         var value = GetPropertyValue("RoleId");
+        if (value is IEnumerable<Guid> roleIds && roleIds.Any())
+        {
+            _sqlBuilder.Append(" AND RoleId IN @RoleIds");
+            _parameters.Add("RoleIds", roleIds);
+            return this;
+        }
         return (RolePermissionSqlBuilder<T>)WhereIf("RoleId = @RoleId", "RoleId", value);
     }
 

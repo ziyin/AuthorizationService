@@ -4,10 +4,11 @@
 
 ※ use customer sdk
 
-=> [Authorization SDK](https://github.com/ziyin/AuthroizationSdk.git)
+https://nuget.pkg.github.com/ziyin/index.json
 
-=> [Elastic SDK](https://github.com/ziyin/AuthroizationSdk.git)
-...need update appsetting elastic endpoint
+dotnet add package Common --version 1.0.1
+
+dotnet add package CustomerAuthorization --version 1.0.2
 
 ## SQL setting
 - Create User

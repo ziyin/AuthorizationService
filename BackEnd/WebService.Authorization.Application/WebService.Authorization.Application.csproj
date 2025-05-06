@@ -7,13 +7,13 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="CustomerAuthorization" Version="1.0.2" />
 		<PackageReference Include="Mapster.DependencyInjection" Version="1.0.1" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.3.1" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\..\Sdk\CustomerAuthorization\CustomerAuthorization\CustomerAuthorization.csproj" />
 		<ProjectReference Include="..\WebService.Authorization.Application.Contracts\WebService.Authorization.Application.Contracts.csproj" />
 		<ProjectReference Include="..\WebService.Authorization.Domain\WebService.Authorization.Domain.csproj" />
 		<ProjectReference Include="..\WebService.Authorization.Shard\WebService.Authorization.Shard.csproj" />
