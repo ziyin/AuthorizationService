@@ -15,17 +15,12 @@ public class RoleSqlBuilder<T>
     public RoleSqlBuilder<T> QueryRoleId()
     {
         var value = GetPropertyValue("RoleId");
-        return (RoleSqlBuilder<T>)WhereIf("Id = @Id", "Id", value);
-    }
-
-    public RoleSqlBuilder<T> QueryRoleIds()
-    {
-        var value = GetPropertyValue("RoleId");
         if (value is IEnumerable<Guid> ids && ids.Any())
         {
-            _sqlBuilder.Append(" AND Id IN @RoleIds");
-            _parameters.Add("RoleIds", ids);
+            _sqlBuilder.Append(" AND Id IN @Ids");
+            _parameters.Add("Ids", ids);
+            return this;
         }
-        return this;
+        return (RoleSqlBuilder<T>)WhereIf("Id = @Id", "Id", value);
     }
 }

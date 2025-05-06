@@ -5,7 +5,7 @@ using WebService.Authorization.Domain.User.Models.Parameters;
 using WebService.Authorization.Domain.UserRole.Interface;
 using WebService.Authorization.Domain.UserRole.Model.Parameter;
 
-namespace WebService.Authorization.Domain.User;
+namespace WebService.Authorization.Domain.UserRole;
 
 public class BindUserToRoleManager
     (

@@ -19,6 +19,8 @@ public class UserEntity
     public DateTime? LastModified { get; private set; }
     public Guid? LastModifiedBy { get; private set; }
 
+    public UserEntity() { }
+
     private UserEntity(
         string name,
         string account,

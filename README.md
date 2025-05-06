@@ -75,7 +75,7 @@ CREATE TABLE UserRoles (
 );
 ```
 
-- Permission Table
+- Permissions Table
 ```
 CREATE TABLE Permissions (
     Id UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
@@ -87,5 +87,18 @@ CREATE TABLE Permissions (
     LastModified DATETIME NULL,
     LastModifiedBy UNIQUEIDENTIFIER NULL
 );
+```
 
+- RolePermissions Table
+```
+CREATE TABLE RolePermissions (
+    Id UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
+    RoleId UNIQUEIDENTIFIER NOT NULL,
+    PermissionId UNIQUEIDENTIFIER NOT NULL,
+    CreateTime DATETIME NOT NULL DEFAULT GETDATE(),
+    Creator UNIQUEIDENTIFIER NOT NULL,
+    CONSTRAINT FK_RolePermissions_Role FOREIGN KEY (RoleId) REFERENCES Roles(Id),
+    CONSTRAINT FK_RolePermissions_Permission FOREIGN KEY (PermissionId) REFERENCES Permissions(Id),
+    CONSTRAINT UQ_RolePermission_RoleId_PermissionId UNIQUE (RoleId, PermissionId)
+);
 ```

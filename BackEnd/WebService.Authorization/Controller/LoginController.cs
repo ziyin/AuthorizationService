@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WebService.Authorization.Application.Contracts.Interfaces;
+using WebService.Authorization.Application.Contracts.PrameterDtos.Login;
 using WebService.Authorization.HttpApi.Request.Login;
 
 
@@ -17,7 +18,7 @@ public class LoginController
     [HttpPost]
     public async Task<IActionResult> HandleAsync(LoginRequest loginRequest)
     {
-        var result = await _loginAppService.HandleAsync(new Application.Contracts.PrameterDtos.Login.LoginParameterDto
+        var result = await _loginAppService.HandleAsync(new LoginParameterDto
         {
             Account = loginRequest.Account,
             Password = loginRequest.Password,

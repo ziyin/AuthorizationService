@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WebService.Authorization.Domain.User.Interfaces;
+namespace WebService.Authorization.Domain.UserRole.Interface;
 
 public interface IBindUserToRoleManager
 {

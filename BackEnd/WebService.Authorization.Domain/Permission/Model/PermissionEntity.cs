@@ -11,6 +11,8 @@ public class PermissionEntity
     public DateTime? LastModified { get; private set; }
     public Guid? LastModifiedBy { get; private set; }
 
+    public PermissionEntity() { }
+
     public PermissionEntity
         (
         string code,

@@ -12,6 +12,8 @@ public class RoleEntity
 
     public Guid Creator { get; private set; }
 
+    public RoleEntity() { }
+
     public RoleEntity(Guid id, string name, bool enable, DateTime createTime, Guid creator)
     {
         Id = id;

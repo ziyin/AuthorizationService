@@ -1,7 +1,6 @@
 ﻿using Dapper;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Options;
-using System.Text;
 using WebService.Authorization.Domain.User.Interfaces;
 using WebService.Authorization.Domain.User.Models;
 using WebService.Authorization.Domain.User.Models.Parameters;

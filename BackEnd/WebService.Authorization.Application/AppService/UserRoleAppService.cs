@@ -1,7 +1,6 @@
 ﻿using WebService.Authorization.Application.Contracts.Interfaces;
 using WebService.Authorization.Application.Contracts.PrameterDtos.Users;
 using WebService.Authorization.Domain.Role.Interfaces;
-using WebService.Authorization.Domain.User.Interfaces;
 using WebService.Authorization.Domain.UserRole.Interface;
 using WebService.Authorization.Domain.UserRole.Model;
 using WebService.Authorization.Domain.UserRole.Model.Parameter;

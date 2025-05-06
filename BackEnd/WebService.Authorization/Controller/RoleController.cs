@@ -11,10 +11,12 @@ namespace WebService.Authorization.HttpApi.Host.Controller;
 public class RoleController
     (
     IRoleAppService roleAppService,
+    IRolePermissionAppService rolePermissionAppService,
     IGetCurrentUser getCurrentUser
     ) : ControllerBase
 {
     private readonly IRoleAppService _roleAppService = roleAppService;
+    private readonly IRolePermissionAppService _rolePermissionAppService = rolePermissionAppService;
     private readonly Guid _currentUserId = Guid.Parse(getCurrentUser.UserId);
 
     [HttpPost]
@@ -51,5 +53,17 @@ public class RoleController
     public async Task<IActionResult> GetListAsync()
     {
         return Ok();
+    }
+
+    [HttpPost("set-permission/{roleId}")]
+    public async Task<IActionResult> SetRolePermissionAsync(Guid roleId, [FromBody] SetRolePermissionRequest request)
+    {
+        var settingResult = await _rolePermissionAppService.CreateAsync(new CreateRolePermissionParameterDto
+        {
+            RoleId= roleId,
+            Permissions = request.Permissions,
+            Creator= _currentUserId
+        });
+        return settingResult > 0 ? Ok($"Binding {settingResult} permission(s).") : BadRequest("No permission are bound.");
     }
 }
