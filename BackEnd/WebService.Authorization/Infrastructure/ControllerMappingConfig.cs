@@ -9,6 +9,7 @@ namespace WebService.Authorization.HttpApi.Host.Infrastructure
         public static void RegisterMappings()
         {
             TypeAdapterConfig<RolePermissionDto, RolePermissionResponse>.NewConfig();
+            TypeAdapterConfig<RoleDto, RoleResponse>.NewConfig();
         }
     }
 }

@@ -17,11 +17,12 @@ public class UserInformationAppService
     private readonly IUserRepository _userRepository = userRepository;
     private readonly IMapper _mapper = mapper;
 
-    public async Task<UserDto?> GetAsync(Guid userId)
+    public async Task<UserDto?> GetAsync(GetUserParameterDto parameterDto)
     {
         var user = await _userRepository.GetAsync(new GetUserParameterModel
         {
-            UserId = userId
+            UserId = parameterDto.UserId,
+            Account = parameterDto.Account
         });
         if (user is null)
         {

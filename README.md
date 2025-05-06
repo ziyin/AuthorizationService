@@ -4,11 +4,8 @@
 
 ※ use customer sdk
 
-https://nuget.pkg.github.com/ziyin/index.json
-
-dotnet add package Common --version 1.0.1
-
-dotnet add package CustomerAuthorization --version 1.0.2
+https://github.com/ziyin?tab=packages
+-> need get token from me
 
 ## SQL setting
 - Create User

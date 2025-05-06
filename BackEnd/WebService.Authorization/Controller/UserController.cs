@@ -28,7 +28,10 @@ public class UserController
     [HttpGet("{userId}")]
     public async Task<IActionResult> GetAsync(Guid userId)
     {
-        var userData = await _userInformationAppService.GetAsync(userId);
+        var userData = await _userInformationAppService.GetAsync(new GetUserParameterDto
+        {
+            UserId = userId
+        });
         return userData is null ? NotFound() : Ok(userData);
     }
 
@@ -121,6 +124,6 @@ public class UserController
             RoleIds = request.RoleIds,
             Creator = _currentUserId
         });
-        return settingCount>0?Ok($"Binding {settingCount} role(s)."):BadRequest("No roles are bound.");
+        return settingCount > 0 ? Ok($"Binding {settingCount} role(s).") : BadRequest("No roles are bound.");
     }
 }

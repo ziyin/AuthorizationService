@@ -14,13 +14,15 @@ namespace WebService.Authorization.HttpApi.Host.Controller;
 [ApiController]
 public class RoleController
     (
-    IRoleAppService roleAppService,
+    IRoleMaintainAppService roleMaintainAppService,
+    IRoleInformationAppService roleInformationAppService,
     IRolePermissionAppService rolePermissionAppService,
     IGetCurrentUser getCurrentUser,
     IMapper mapper
     ) : ControllerBase
 {
-    private readonly IRoleAppService _roleAppService = roleAppService;
+    private readonly IRoleMaintainAppService _roleMaintainAppService = roleMaintainAppService;
+    private readonly IRoleInformationAppService _roleInformationAppService = roleInformationAppService;
     private readonly IRolePermissionAppService _rolePermissionAppService = rolePermissionAppService;
     private readonly Guid _currentUserId = Guid.Parse(getCurrentUser.UserId);
     private readonly IMapper _mapper = mapper;
@@ -29,12 +31,11 @@ public class RoleController
     [HttpPost]
     public async Task<IActionResult> CreateAsync([FromBody] CreateRoleRequest request)
     {
-        var parameterDto = new CreateRoleParameterDto
+        var roleId = await _roleMaintainAppService.CreateAsync(new CreateRoleParameterDto
         {
             RoleName = request.RoleName,
             Creator = _currentUserId
-        };
-        var roleId = await _roleAppService.CreateAsync(parameterDto);
+        });
         return Ok(roleId);
     }
 
@@ -56,14 +57,23 @@ public class RoleController
     [HttpGet("{roleId}")]
     public async Task<IActionResult> GetAsync(Guid roleId)
     {
-        return Ok();
+        var role = await _roleInformationAppService.GetAsync(new GetRoleParameterDto
+        {
+            RoleId = roleId
+        });
+        return role is null ? NotFound() : Ok(_mapper.Map<RoleResponse>(role));
     }
 
     [PermissionAuthorize(PermissionConstant.RoleRead)]
     [HttpGet("roles")]
-    public async Task<IActionResult> GetListAsync()
+    public async Task<IActionResult> GetListAsync([FromQuery]GetRoleListRequest request)
     {
-        return Ok();
+        var roles = await _roleInformationAppService.GetListAsync(new GetRoleListParameterDto());
+        var respnse = new RoleListResponse
+        {
+            List = _mapper.Map<IEnumerable<RoleResponse>>(roles ?? [])
+        };
+        return Ok(respnse);
     }
 
     [PermissionAuthorize(PermissionConstant.RoleEdit)]
