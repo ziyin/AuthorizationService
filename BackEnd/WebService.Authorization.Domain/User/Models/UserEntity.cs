@@ -19,8 +19,9 @@ public class UserEntity
     public DateTime? LastModified { get; private set; }
     public Guid? LastModifiedBy { get; private set; }
 
+    public UserEntity() { }
+
     private UserEntity(
-        Guid id,
         string name,
         string account,
         string password,
@@ -30,12 +31,9 @@ public class UserEntity
         string? address,
         DateTime createTime,
         Guid creator,
-        bool enable,
-        DateTime? lastModified,
-        Guid? lastModifiedBy
+        bool enable
         )
     {
-        Id = id;
         Name = name;
         Account = account;
         Password = password;
@@ -46,8 +44,6 @@ public class UserEntity
         CreateTime = createTime;
         Creator = creator;
         Enable = enable;
-        LastModified = lastModified;
-        LastModifiedBy = lastModifiedBy;
     }
 
     public static UserEntity Create(
@@ -61,7 +57,6 @@ public class UserEntity
         Guid creator)
     {
         return new UserEntity(
-            Guid.Empty,
             name,
             account,
             hashedPassword,
@@ -71,9 +66,7 @@ public class UserEntity
             address,
             DateTime.UtcNow,
             creator,
-            enable: true,
-            null,
-            null
+            enable: true
         );
     }
 

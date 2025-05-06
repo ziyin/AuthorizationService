@@ -1,3 +1,4 @@
+using Common.ApiFormat;
 using CustomerAuthorization;
 using CustomerAuthorization.Implements;
 using CustomerAuthorization.Interfaces;
@@ -8,7 +9,8 @@ using Microsoft.OpenApi.Models;
 using System.Security.Claims;
 using System.Text;
 using WebService.Authorization.Application;
-using WebService.Authorization.HttpApi.Host.DependencyInjection;
+using WebService.Authorization.HttpApi.Host.Infrastructure;
+using WebService.Authorization.HttpApi.Host.Infrastructure.DependencyInjection;
 using WebService.Authorization.HttpApi.Host.Transformer;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -74,12 +76,14 @@ builder.Services.AddScoped<IGetCurrentUser>(provider =>
     var user = httpContextAccessor.HttpContext?.User ?? new ClaimsPrincipal();
     return new GetCurrentUser(user);
 });
+
 #endregion
 
 #region --Mapster
 
 builder.Services.AddMapster();
 ApplicationMappingConfig.RegisterMappings();
+ControllerMappingConfig.RegisterMappings();
 
 #endregion
 
@@ -97,7 +101,7 @@ app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
-
+app.UseMiddleware<ApiResponseMiddleware>();
 app.MapControllers();
 
 app.Run();

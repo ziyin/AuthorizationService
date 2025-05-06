@@ -1,3 +1,15 @@
+## First time use
+1. Please create the database first and update the connection string in appsettings.
+2. Please use the "Create System Administrator" API to set up the system administrator first.
+
+※ use customer sdk
+
+https://nuget.pkg.github.com/ziyin/index.json
+
+dotnet add package Common --version 1.0.1
+
+dotnet add package CustomerAuthorization --version 1.0.2
+
 ## SQL setting
 - Create User
 ```
@@ -61,5 +73,33 @@ CREATE TABLE UserRoles (
     CONSTRAINT FK_UserRoles_Role FOREIGN KEY (RoleId) REFERENCES Roles(Id),
 
     CONSTRAINT UQ_UserRoles_UserId_RoleId UNIQUE (UserId, RoleId)
+);
+```
+
+- Permissions Table
+```
+CREATE TABLE Permissions (
+    Id UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
+    Code NVARCHAR(100) NOT NULL UNIQUE,
+    Name NVARCHAR(100) NOT NULL,
+    Enable BIT NOT NULL DEFAULT 1,
+    CreateTime DATETIME NOT NULL DEFAULT GETDATE(),
+    Creator UNIQUEIDENTIFIER NOT NULL,
+    LastModified DATETIME NULL,
+    LastModifiedBy UNIQUEIDENTIFIER NULL
+);
+```
+
+- RolePermissions Table
+```
+CREATE TABLE RolePermissions (
+    Id UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
+    RoleId UNIQUEIDENTIFIER NOT NULL,
+    PermissionId UNIQUEIDENTIFIER NOT NULL,
+    CreateTime DATETIME NOT NULL DEFAULT GETDATE(),
+    Creator UNIQUEIDENTIFIER NOT NULL,
+    CONSTRAINT FK_RolePermissions_Role FOREIGN KEY (RoleId) REFERENCES Roles(Id),
+    CONSTRAINT FK_RolePermissions_Permission FOREIGN KEY (PermissionId) REFERENCES Permissions(Id),
+    CONSTRAINT UQ_RolePermission_RoleId_PermissionId UNIQUE (RoleId, PermissionId)
 );
 ```

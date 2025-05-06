@@ -1,6 +1,6 @@
 ﻿using WebService.Authorization.Shard.Options;
 
-namespace WebService.Authorization.HttpApi.Host.DependencyInjection;
+namespace WebService.Authorization.HttpApi.Host.Infrastructure.DependencyInjection;
 
 public static class OptionDependencyInjection
 {
