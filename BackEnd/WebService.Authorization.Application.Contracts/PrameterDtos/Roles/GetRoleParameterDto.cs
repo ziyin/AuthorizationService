@@ -4,4 +4,5 @@ public class GetRoleParameterDto
 {
     public Guid? RoleId { get; set; }
     public string? RoleName { get; set; }
+    public bool Enable { get; set; } = true;
 }

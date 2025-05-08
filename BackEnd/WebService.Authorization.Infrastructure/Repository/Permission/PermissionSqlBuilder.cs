@@ -6,10 +6,10 @@ public class PermissionSqlBuilder<T>
     T query
     ) : BaseSqlQueryBuilder<T>(baseSql, query)
 {
-    public PermissionSqlBuilder<T> QueryName()
+    public PermissionSqlBuilder<T> QueryPermissionCode()
     {
-        var value = GetPropertyValue("Name");
-        return (PermissionSqlBuilder<T>)WhereIf("Name = @Name", "Name", value);
+        var value = GetPropertyValue("PermissionCode");
+        return (PermissionSqlBuilder<T>)WhereIf("Code = @Code", "Code", value);
     }
 
     public PermissionSqlBuilder<T> QueryPermissionId()

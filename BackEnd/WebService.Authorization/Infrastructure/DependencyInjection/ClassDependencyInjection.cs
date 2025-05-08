@@ -31,7 +31,8 @@ public static class ClassDependencyInjection
     private static void AppSerivceDependencyInjection(this IServiceCollection services)
     {
         services.AddTransient<ILoginAppService, LoginAppService>();
-        services.AddTransient<IPermissionAppService, PermissionAppService>();
+        services.AddTransient<IPermissionInformationAppService, PermissionInformationAppService>();
+        services.AddTransient<IPermissionAppService, PermissionMaintainAppService>();
         services.AddTransient<IRoleInformationAppService, RoleInformationAppService>();
         services.AddTransient<IRoleMaintainAppService, RoleMaintainAppService>();
         services.AddTransient<IRolePermissionAppService, RolePermissionAppService>();

@@ -53,7 +53,7 @@ public class UserController
     [HttpPost]
     public async Task<IActionResult> CreateAsync([FromBody] CreateUserRequest request)
     {
-        var createParmeterDto = new CreateUserParameterDto
+        var createUserId = await _userMaintainAppService.CreateAsync(new CreateUserParameterDto
         {
             Account = request.Account,
             Address = request.Address,
@@ -63,8 +63,7 @@ public class UserController
             Password = request.Password,
             Phone = request.Phone,
             RegionBusinessUnit = request.RegionBusinessUnit
-        };
-        var createUserId = await _userMaintainAppService.CreateAsync(createParmeterDto);
+        });
         return Ok(createUserId);
     }
 
@@ -72,7 +71,7 @@ public class UserController
     [HttpPut("{userId}")]
     public async Task<IActionResult> UpdateAsync(Guid userId, [FromBody] UpdateUserRequest request)
     {
-        var updateUserParameter = new UpdateUserParameterDto
+        await _userMaintainAppService.UpdateAsync(new UpdateUserParameterDto
         {
             UserId = userId,
             Address = request.Address,
@@ -81,8 +80,7 @@ public class UserController
             Phone = request.Phone,
             RegionBusinessUnit = request.RegionBusinessUnit,
             LastModifiedBy = _currentUserId
-        };
-        await _userMaintainAppService.UpdateAsync(updateUserParameter);
+        });
         return NoContent();
     }
 
@@ -90,13 +88,12 @@ public class UserController
     [HttpPatch("{userId}")]
     public async Task<IActionResult> ResetPassword(Guid userId, [FromBody] ResetPasswordRequest request)
     {
-        var resetParameterDto = new ResetPasswordParameterDto
+        await _userMaintainAppService.ResetPasswordAsync(new ResetPasswordParameterDto
         {
             UserId = userId,
             Password = request.Password,
             LastModifiedBy = _currentUserId
-        };
-        await _userMaintainAppService.ResetPasswordAsync(resetParameterDto);
+        });
         return NoContent();
     }
 
@@ -104,13 +101,12 @@ public class UserController
     [HttpDelete("{userId}")]
     public async Task<IActionResult> DeleteAsync(Guid userId)
     {
-        var setEnableParameterDto = new SetEnableParameterDto
+        await _userMaintainAppService.SetEnableAsync(new SetEnableParameterDto
         {
             UserId = userId,
             Enable = false,
             LastModifiedBy = _currentUserId
-        };
-        await _userMaintainAppService.SetEnableAsync(setEnableParameterDto);
+        });
         return NoContent();
     }
 

@@ -1,6 +1,5 @@
 ﻿using CustomerAuthorization.Interfaces;
 using CustomerAuthorization.Models;
-using MapsterMapper;
 using WebService.Authorization.Application.Contracts.Interfaces;
 using WebService.Authorization.Application.Contracts.PrameterDtos.Login;
 using WebService.Authorization.Application.Contracts.ResponseDtos.Login;

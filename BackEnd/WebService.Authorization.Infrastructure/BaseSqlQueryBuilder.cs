@@ -8,9 +8,17 @@ public class BaseSqlQueryBuilder<T>(string baseSql, T query)
 {
     protected readonly StringBuilder _sqlBuilder = new(baseSql);
     protected readonly DynamicParameters _parameters = new();
-    protected readonly T _query= query;
+    protected readonly List<string> _conditions = [];
+    protected readonly T _query = query;
     public string BuildSql() => _sqlBuilder.ToString();
     public DynamicParameters BuildParameters() => _parameters;
+
+    public BaseSqlQueryBuilder<T> QueryEnable(bool enable = true)
+    {
+        _sqlBuilder.Append(" AND Enable = @Enbale");
+        _parameters.Add("Enbale", enable);
+        return this;
+    }
 
     protected BaseSqlQueryBuilder<T> WhereIf(string condition, string paramName, object? value, bool likeEnable = false)
     {

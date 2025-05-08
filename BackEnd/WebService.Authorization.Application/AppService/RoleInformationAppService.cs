@@ -21,7 +21,8 @@ public class RoleInformationAppService
         var result = await _roleRepository.GetAsync(new GetRoleParameterModel
         {
             RoleId = parameterDto.RoleId,
-            RoleName = parameterDto.RoleName
+            RoleName = parameterDto.RoleName,
+            Enable = parameterDto.Enable
         });
         return result is null ? null : _mapper.Map<RoleDto>(result);
     }
@@ -31,7 +32,8 @@ public class RoleInformationAppService
         var result = await _roleRepository.GetListAsync(new GetRoleListParameterModel
         {
             RoleId = parameterDto.RoleId,
-            RoleName = parameterDto.RoleName
+            RoleName = parameterDto.RoleName,
+            Enable = parameterDto.Enable
         });
 
         return result is null ? null : _mapper.Map<IEnumerable<RoleDto>>(result);
