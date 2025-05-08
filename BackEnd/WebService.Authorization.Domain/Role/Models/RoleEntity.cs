@@ -3,18 +3,23 @@
 public class RoleEntity
 {
     public Guid Id { get; private set; }
-
     public string Name { get; private set; }
-
     public bool Enable { get; private set; }
-
     public DateTime CreateTime { get; private set; }
-
     public Guid Creator { get; private set; }
+    public DateTime? LastModified { get; private set; }
+    public Guid? LastModifiedBy { get; private set; }
 
     public RoleEntity() { }
 
-    public RoleEntity(Guid id, string name, bool enable, DateTime createTime, Guid creator)
+    public RoleEntity
+        (
+        Guid id,
+        string name,
+        bool enable,
+        DateTime createTime,
+        Guid creator
+        )
     {
         Id = id;
         Name = name;
@@ -36,7 +41,25 @@ public class RoleEntity
         );
     }
 
-    public void EnableRole() => Enable = true;
+    public void Update
+        (
+        string name,
+        Guid modifiedBy
+        )
+    {
+        Name = name;
+        LastModifiedBy = modifiedBy;
+        LastModified = DateTime.UtcNow;
+    }
 
-    public void DisableRole() => Enable = false;
+    public void SetEnableState
+        (
+        bool enable,
+        Guid modifiedBy
+        )
+    {
+        Enable = enable;
+        LastModifiedBy = modifiedBy;
+        LastModified = DateTime.UtcNow;
+    }
 }

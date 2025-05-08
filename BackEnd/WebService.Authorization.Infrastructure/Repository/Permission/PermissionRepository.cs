@@ -40,7 +40,35 @@ public class PermissionRepository
         await connection.ExecuteAsync(sql, permissionEntity);
     }
 
-    public async Task<IEnumerable<PermissionEntity>> GetListAsync(GetPermissionListParameterModel parameterModel)
+    public async Task UpdateAsync(PermissionEntity permissionEntity)
+    {
+        var sql = @"
+                    UPDATE Permissions
+	                SET
+                        Code=@Code,
+                        Name=@Name,
+                        Enable=@Enable,
+	                    LastModified=GETDATE(),
+	                    LastModifiedBy=@LastModifiedBy
+	                WHERE Id=@Id
+                    ";
+        using var connection = new SqlConnection(_dbConnectionOption.AuthorizationConnection);
+        await connection.ExecuteAsync(sql, permissionEntity);
+    }
+
+    public async Task<PermissionEntity?> GetAsync(GetPermissionParameterModel parameterModel)
+    {
+        var sqlbuilder = new PermissionSqlBuilder<GetPermissionParameterModel>("SELECT * FROM Permissions WHERE 1=1", parameterModel)
+            .QueryPermissionId()
+            .QueryPermissionCode();
+        var sql = sqlbuilder.BuildSql();
+        var parameters = sqlbuilder.BuildParameters();
+        using var conn = new SqlConnection(_dbConnectionOption.AuthorizationConnection);
+        var result = await conn.QueryFirstOrDefaultAsync<PermissionEntity>(sql, parameters);
+        return result;
+    }
+
+    public async Task<IEnumerable<PermissionEntity>?> GetListAsync(GetPermissionListParameterModel parameterModel)
     {
         var sqlbuilder = new PermissionSqlBuilder<GetPermissionListParameterModel>("SELECT * FROM Permissions WHERE 1=1", parameterModel)
             .QueryPermissionId();

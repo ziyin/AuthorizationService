@@ -27,7 +27,8 @@ public class PermissionEntity
         Enable = enable;
     }
 
-    public static PermissionEntity Create(
+    public static PermissionEntity Create
+        (
         string code,
         string name,
         Guid creator
@@ -41,4 +42,27 @@ public class PermissionEntity
         );
     }
 
+    public void Update
+        (
+        string code,
+        string name,
+        Guid lastModifiedBy
+        )
+    {
+        Code = code;
+        Name = name;
+        LastModified = DateTime.UtcNow;
+        LastModifiedBy = lastModifiedBy;
+    }
+
+    public void SetEnableState
+        (
+        bool enable,
+        Guid modifiedBy
+        )
+    {
+        Enable = enable;
+        LastModifiedBy = modifiedBy;
+        LastModified = DateTime.UtcNow;
+    }
 }

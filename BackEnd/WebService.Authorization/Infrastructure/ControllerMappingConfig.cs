@@ -1,5 +1,7 @@
 ﻿using Mapster;
+using WebService.Authorization.Application.Contracts.ResponseDtos.Permission;
 using WebService.Authorization.Application.Contracts.ResponseDtos.Role;
+using WebService.Authorization.HttpApi.Repsonse.Permission;
 using WebService.Authorization.HttpApi.Repsonse.Role;
 
 namespace WebService.Authorization.HttpApi.Host.Infrastructure
@@ -10,6 +12,7 @@ namespace WebService.Authorization.HttpApi.Host.Infrastructure
         {
             TypeAdapterConfig<RolePermissionDto, RolePermissionResponse>.NewConfig();
             TypeAdapterConfig<RoleDto, RoleResponse>.NewConfig();
+            TypeAdapterConfig<PermissionDto, PermissionResponse>.NewConfig();
         }
     }
 }

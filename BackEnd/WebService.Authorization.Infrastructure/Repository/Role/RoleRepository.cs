@@ -41,11 +41,27 @@ public class RoleRepository
         return insertedId;
     }
 
+    public async Task UpdateAsync(RoleEntity roleEntity)
+    {
+        var sql = @"
+                    UPDATE Roles
+	                SET
+                        Name=@Name,
+	                    LastModified=GETDATE(),
+	                    LastModifiedBy=@LastModifiedBy,
+                        Enable=@Enable
+	                WHERE Id=@Id
+                    ";
+        using var connection = new SqlConnection(_dbConnectionOption.AuthorizationConnection);
+        await connection.ExecuteAsync(sql, roleEntity);
+    }
+
     public async Task<RoleEntity?> GetAsync(GetRoleParameterModel parameterModel)
     {
         var sqlbuilder = new RoleSqlBuilder<GetRoleParameterModel>("SELECT * FROM Roles WHERE 1=1", parameterModel)
             .QueryRoleId()
-            .QueryRoleName();
+            .QueryRoleName()
+            .QueryEnable(parameterModel.Enable);
         var sql = sqlbuilder.BuildSql();
         var parameters = sqlbuilder.BuildParameters();
         using var conn = new SqlConnection(_dbConnectionOption.AuthorizationConnection);
@@ -57,7 +73,8 @@ public class RoleRepository
     {
         var sqlbuilder = new RoleSqlBuilder<GetRoleListParameterModel>("SELECT * FROM Roles WHERE 1=1", parameterModel)
             .QueryRoleId()
-            .QueryRoleName();
+            .QueryRoleName()
+            .QueryEnable(parameterModel.Enable);
         var sql = sqlbuilder.BuildSql();
         var parameters = sqlbuilder.BuildParameters();
         using var conn = new SqlConnection(_dbConnectionOption.AuthorizationConnection);

@@ -41,8 +41,14 @@ public class RoleController
 
     [PermissionAuthorize(PermissionConstant.RoleEdit)]
     [HttpPut("{roleId}")]
-    public async Task<IActionResult> UpdateAsync([FromBody] UpdateRoleRequest request)
+    public async Task<IActionResult> UpdateAsync(Guid roleId, [FromBody] UpdateRoleRequest request)
     {
+        await _roleMaintainAppService.UpdateAsync(new UpdateRoleParameterDto
+        {
+            RoleId = roleId,
+            RoleName = request.RoleName,
+            LastModifiedBy = _currentUserId
+        });
         return NoContent();
     }
 
@@ -50,10 +56,16 @@ public class RoleController
     [HttpDelete("{roleId}")]
     public async Task<IActionResult> DeleteAsync(Guid roleId)
     {
+        await _roleMaintainAppService.SetRoleEnableAsync(new SetRoleEnableParameterDto
+        {
+            RoleId = roleId,
+            Enable = false,
+            LastModifiedBy = _currentUserId
+        });
         return NoContent();
     }
 
-    [PermissionAuthorize(PermissionConstant.RoleEdit)]
+    [PermissionAuthorize(PermissionConstant.RoleRead)]
     [HttpGet("{roleId}")]
     public async Task<IActionResult> GetAsync(Guid roleId)
     {
@@ -66,7 +78,7 @@ public class RoleController
 
     [PermissionAuthorize(PermissionConstant.RoleRead)]
     [HttpGet("roles")]
-    public async Task<IActionResult> GetListAsync([FromQuery]GetRoleListRequest request)
+    public async Task<IActionResult> GetListAsync()
     {
         var roles = await _roleInformationAppService.GetListAsync(new GetRoleListParameterDto());
         var respnse = new RoleListResponse
@@ -89,7 +101,6 @@ public class RoleController
         return settingResult > 0 ? Ok($"Binding {settingResult} permission(s).") : BadRequest("No permission are bound.");
     }
 
-    [PermissionAuthorize(PermissionConstant.RoleRead)]
     [HttpGet("role-permission")]
     public async Task<IActionResult> GetRolePermissionsAsync([FromQuery] GetRolePermissionsRequest request)
     {
